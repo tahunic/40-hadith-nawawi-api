@@ -18,12 +18,13 @@ public class HadithDataDto {
 	private String title;
 	private String summary;
 	private Translation translation;
+	private String comment;
 
 	public HadithDataDto(HadithData hadithData) {
 		this.id = hadithData.getId();
 		this.header = hadithData.getHeader();
 		this.title = hadithData.getTitle();
 		this.summary = hadithData.getSummary();
-		this.translation = hadithData.getTranslation();
+		this.comment = hadithData.getComment();
 	}
 }
