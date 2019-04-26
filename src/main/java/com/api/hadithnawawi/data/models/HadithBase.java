@@ -1,10 +1,12 @@
 package com.api.hadithnawawi.data.models;
 
-import com.api.hadithnawawi.data.enums.Translation;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
@@ -13,21 +15,16 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HadithData {
+public class HadithBase {
 
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	private UUID id;
 
-	private String header;
-	private String title;
+	private Integer index;
 	@Column(columnDefinition = "text")
-	private String summary;
-	private Translation translation;
+	private String original;
 	@Column(columnDefinition = "text")
-	private String comment;
-
-	@ManyToOne
-	private Hadith hadith;
+	private String audioUrl;
 }

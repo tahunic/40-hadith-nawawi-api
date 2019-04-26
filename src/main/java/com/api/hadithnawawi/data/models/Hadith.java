@@ -1,11 +1,10 @@
 package com.api.hadithnawawi.data.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.api.hadithnawawi.data.enums.Translation;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,11 +20,14 @@ public class Hadith {
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	private UUID id;
 
-	private Integer index;
-	private String original;
-	private String audioUrl;
+	private String header;
+	private String title;
+	@Column(columnDefinition = "text")
+	private String summary;
+	private Translation translation;
+	@Column(columnDefinition = "text")
+	private String comment;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "hadith", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<HadithData> hadithData;
+	@ManyToOne
+	private HadithBase hadithBase;
 }
