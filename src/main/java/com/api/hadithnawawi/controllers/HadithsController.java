@@ -90,12 +90,15 @@ public class HadithsController {
 		}
 
 		try {
-			List<Hadith> hadithList;
+			List<Hadith> hadithList = new ArrayList<>();
 			if (StringUtils.isEmpty(term)) {
 				hadithList = hadithRepository.findByTranslation(Translation.valueOf(translation.toUpperCase()));
 			} else if (index != null && index >= 1 && index <= 42) {
-				hadithList = Collections.singletonList(hadithRepository
-					.findByHadithBaseIndexAndTranslation(index, Translation.valueOf(translation.toUpperCase())));
+				Hadith hadith = hadithRepository
+					.findByHadithBaseIndexAndTranslation(index, Translation.valueOf(translation.toUpperCase()));
+				if (hadith != null) {
+					hadithList.add(hadith);
+				}
 			}
 			else {
 				hadithList = hadithRepository
