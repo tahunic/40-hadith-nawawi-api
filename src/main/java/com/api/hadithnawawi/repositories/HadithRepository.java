@@ -9,5 +9,8 @@ import java.util.UUID;
 
 public interface HadithRepository extends CrudRepository<Hadith, UUID> {
 	List<Hadith> findByTranslation(Translation translation);
+
 	Hadith findByHadithBaseIndexAndTranslation(Integer index, Translation translation);
+
+	List<Hadith> findByTitleContainingIgnoreCaseOrSummaryContainingIgnoreCaseOrCommentContainingIgnoreCaseOrHadithBaseIndex(String title, String summary, String comment, Integer index);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/hadiths")
@@ -80,5 +81,40 @@ public class HadithsController {
 				.data(hadith)
 				.build();
 			return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity search(@RequestParam String term, @RequestParam String translation) {
+		Integer index = null;
+		try {
+			index = Integer.parseInt(term);
+		} catch (NumberFormatException e) {
+		}
+
+		try {
+			List<Hadith> hadithList;
+			if (StringUtils.isEmpty(term)) {
+				hadithList = hadithRepository.findByTranslation(Translation.valueOf(translation.toUpperCase()));
+			} else {
+				hadithList = hadithRepository
+					.findByTitleContainingIgnoreCaseOrSummaryContainingIgnoreCaseOrCommentContainingIgnoreCaseOrHadithBaseIndex(term, term, term, index)
+					.stream()
+					.filter(h -> h.getTranslation().equals(Translation.valueOf(translation.toUpperCase())))
+					.collect(Collectors.toList());
+			}
+			hadithList.sort(Comparator.comparing(h -> h.getHadithBase().getIndex()));
+
+			Response response = Response.builder()
+				.success(true)
+				.data(hadithList)
+				.build();
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			Response response = Response.builder()
+				.success(false)
+				.message("Invalid translation value.")
+				.build();
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
 	}
 }
