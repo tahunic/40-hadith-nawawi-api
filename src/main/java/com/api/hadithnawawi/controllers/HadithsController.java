@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -95,9 +93,13 @@ public class HadithsController {
 			List<Hadith> hadithList;
 			if (StringUtils.isEmpty(term)) {
 				hadithList = hadithRepository.findByTranslation(Translation.valueOf(translation.toUpperCase()));
-			} else {
+			} else if (index != null && index >= 1 && index <= 42) {
+				hadithList = Collections.singletonList(hadithRepository
+					.findByHadithBaseIndexAndTranslation(index, Translation.valueOf(translation.toUpperCase())));
+			}
+			else {
 				hadithList = hadithRepository
-					.findByTitleContainingIgnoreCaseOrSummaryContainingIgnoreCaseOrCommentContainingIgnoreCaseOrHadithBaseIndex(term, term, term, index)
+					.findByTitleContainingIgnoreCaseOrSummaryContainingIgnoreCaseOrCommentContainingIgnoreCase(term, term, term)
 					.stream()
 					.filter(h -> h.getTranslation().equals(Translation.valueOf(translation.toUpperCase())))
 					.collect(Collectors.toList());

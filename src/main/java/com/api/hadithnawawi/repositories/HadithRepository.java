@@ -12,5 +12,5 @@ public interface HadithRepository extends CrudRepository<Hadith, UUID> {
 
 	Hadith findByHadithBaseIndexAndTranslation(Integer index, Translation translation);
 
-	List<Hadith> findByTitleContainingIgnoreCaseOrSummaryContainingIgnoreCaseOrCommentContainingIgnoreCaseOrHadithBaseIndex(String title, String summary, String comment, Integer index);
+	List<Hadith> findByTitleContainingIgnoreCaseOrSummaryContainingIgnoreCaseOrCommentContainingIgnoreCase(String title, String summary, String comment);
 }
