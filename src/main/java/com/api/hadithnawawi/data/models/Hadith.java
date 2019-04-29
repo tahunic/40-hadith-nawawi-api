@@ -27,6 +27,8 @@ public class Hadith {
 	private Translation translation;
 	@Column(columnDefinition = "text")
 	private String comment;
+	@Column(columnDefinition = "text")
+	private String lectureUrl;
 
 	@ManyToOne
 	private HadithBase hadithBase;

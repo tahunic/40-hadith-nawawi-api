@@ -19,6 +19,7 @@ public class HadithDto {
 	private String summary;
 	private Translation translation;
 	private String comment;
+	private String lectureUrl;
 
 	public HadithDto(Hadith hadith) {
 		this.id = hadith.getId();
@@ -26,5 +27,6 @@ public class HadithDto {
 		this.title = hadith.getTitle();
 		this.summary = hadith.getSummary();
 		this.comment = hadith.getComment();
+		this.lectureUrl = hadith.getLectureUrl();
 	}
 }
